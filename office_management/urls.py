@@ -21,6 +21,7 @@ from office.views import CustomLoginView # Import your custom login view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('office.urls')), # Include office.urls at the root
     path('office/', include('office.urls')),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/login/'), name='logout'),
