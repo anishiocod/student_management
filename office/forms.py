@@ -6,6 +6,10 @@ class FeeForm(forms.ModelForm):
     class Meta:
         model = Fee
         fields = ['status', 'receipt']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'receipt': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
 
 class AttendanceForm(forms.ModelForm):
     class Meta:
@@ -19,8 +23,8 @@ class InternalMarkForm(forms.ModelForm):
 
 class StudentRegistrationForm(forms.ModelForm):
     # Fields for the User model
-    username = forms.CharField(max_length=150)
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Student
@@ -29,6 +33,20 @@ class StudentRegistrationForm(forms.ModelForm):
             'category', 'address', 'guardian_name', 'student_phone_number',
             'parent_phone_number', 'department', 'semester', 'class_in_charge'
         ]
+        widgets = {
+            'apaar_id': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'caste': forms.TextInput(attrs={'class': 'form-control'}),
+            'category': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control'}),
+            'guardian_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'student_phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'parent_phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'department': forms.Select(attrs={'class': 'form-control'}),
+            'semester': forms.Select(attrs={'class': 'form-control'}),
+            'class_in_charge': forms.Select(attrs={'class': 'form-control'}),
+        }
 
     def save(self, commit=True):
         user = User.objects.create_user(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
@@ -38,14 +56,17 @@ class StudentRegistrationForm(forms.ModelForm):
         return student
 
 class StaffRegistrationForm(forms.ModelForm):
-    username = forms.CharField(max_length=150, help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.")
-    email = forms.EmailField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput, help_text="Enter a strong password.")
-    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    username = forms.CharField(max_length=150, help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), help_text="Enter a strong password.")
+    password_confirm = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label="Confirm Password")
 
     class Meta:
         model = Staff
         fields = ['staff_type'] # Only staff_type from the Staff model
+        widgets = {
+            'staff_type': forms.Select(attrs={'class': 'form-control'}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
