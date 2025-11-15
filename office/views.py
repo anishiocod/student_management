@@ -176,6 +176,8 @@ def office_staff_dashboard(request):
     department_filter = request.GET.get('department')
     semester_filter = request.GET.get('semester')
     fee_status_filter = request.GET.get('fee_status')
+    caste_filter = request.GET.get('caste')
+    category_filter = request.GET.get('category')
 
     if query:
         students = students.filter(
@@ -184,6 +186,10 @@ def office_staff_dashboard(request):
             Q(department__name__icontains=query) |
             Q(semester__name__icontains=query)
         )
+    if caste_filter:
+        students = students.filter(caste__iexact=caste_filter)
+    if category_filter:
+        students = students.filter(category__iexact=category_filter)
     
     if department_filter:
         students = students.filter(department__name=department_filter)
@@ -204,15 +210,21 @@ def office_staff_dashboard(request):
     departments = Course.objects.all()
     semesters = Semester.objects.all()
     fee_statuses = [('Paid', 'Paid'), ('Not Paid', 'Not Paid')]
+    castes = Student.objects.values_list('caste', flat=True).distinct()
+    categories = Student.objects.values_list('category', flat=True).distinct()
 
     context = {
         'students': students,
         'departments': departments,
         'semesters': semesters,
         'fee_statuses': fee_statuses,
+        'castes': castes,
+        'categories': categories,
         'selected_department': department_filter,
         'selected_semester': semester_filter,
         'selected_fee_status': fee_status_filter,
+        'selected_caste': caste_filter,
+        'selected_category': category_filter,
         'query': query,
     }
     return render(request, 'office/office_staff_dashboard.html', context)
