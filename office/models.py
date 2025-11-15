@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
-    degree_type = models.CharField(max_length=50, choices=[('FYUGP', 'FYUGP (4-year)'), ('Regular', 'Regular (3-year)')])
+    degree_type = models.CharField(max_length=50, 
+                                   choices=[('FYUGP', 'FYUGP (4-year)'), 
+                                            ('Regular', 'Regular (3-year)'),
+                                            ('Masters', 'Masters (2-year)')])
 
     def __str__(self):
         return self.name
