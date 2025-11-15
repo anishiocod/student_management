@@ -3,8 +3,42 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <div class="text-center mt-5">
-        <h1 class="display-4">Welcome to the Office Management System</h1>
-        <p class="lead">This system helps manage academic and administrative operations for the college.</p>
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold">Welcome to the Student Management System</h1>
+            <p class="col-md-8 fs-4 mx-auto">Your central hub for managing academic and administrative operations efficiently.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100 text-center shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Office Staff</h5>
+                        <p class="card-text">Manage student registrations, fees, and administrative tasks.</p>
+                        <a href="{% url 'office:office_staff_dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 text-center shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Teaching Staff</h5>
+                        <p class="card-text">Handle attendance, upload internal marks, and view student details.</p>
+                        <a href="{% url 'office:teaching_staff_view' %}" class="btn btn-success">Go to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 text-center shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Student</h5>
+                        <p class="card-text">Access your dashboard, view details, and check notifications.</p>
+                        <a href="{% url 'office:student_dashboard' %}" class="btn btn-info">Go to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
