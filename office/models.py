@@ -19,11 +19,13 @@ class Subject(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     subject_type = models.CharField(max_length=50, choices=[
-        ('Major', 'Major'),
+        ('Major 1', 'Major 1'),
+        ('Major 2', 'Major 2'),
         ('Minor 1', 'Minor 1'),
         ('Minor 2', 'Minor 2'),
         ('VAC 1', 'VAC 1'),
-        ('DSE / VAC 2', 'DSE / VAC 2'),
+        ('VAC 2', 'VAC 2'),
+        ('DSE', 'DSE'),
         ('SEC', 'SEC'),
         ('MDC', 'MDC'),
         ('AEC English', 'AEC English'),
