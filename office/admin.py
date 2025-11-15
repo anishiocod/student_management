@@ -46,7 +46,9 @@ class InternalMarkAdmin(admin.ModelAdmin):
     list_filter = ('subject',)
     search_fields = ('student__name', 'subject__name')
     list_per_page = 20
-
+admin.site.site_header = "Office Administration"
+admin.site.site_title = "Office Administration Portal"
+admin.site.index_title = "Welcome to Your Admin Dashboard"
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Semester, SemesterAdmin)
 admin.site.register(Subject, SubjectAdmin)
