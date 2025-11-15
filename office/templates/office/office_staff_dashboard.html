@@ -55,6 +55,24 @@
                     </select>
                 </div>
                 <div class="col-md-2">
+                    <label for="id_caste" class="form-label">Caste</label>
+                    <select class="form-select" id="id_caste" name="caste">
+                        <option value="">All Castes</option>
+                        {% for caste in castes %}
+                            <option value="{{ caste }}" {% if selected_caste == caste %}selected{% endif %}>{{ caste }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="id_category" class="form-label">Category</label>
+                    <select class="form-select" id="id_category" name="category">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
                     <label for="id_fee_status" class="form-label">Fee Status</label>
                     <select class="form-select" id="id_fee_status" name="fee_status">
                         <option value="">All</option>
