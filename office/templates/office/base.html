@@ -85,12 +85,23 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                         </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
-                        </li>
                     {% endif %}
                 </ul>
+                {% if user.is_authenticated %}
+                    <span class="navbar-text me-3">
+                        Welcome, {{ user.username }} (
+                        {% if user.is_superuser %}
+                            Admin
+                        {% elif user.staff %}
+                            {{ user.staff.staff_type }} Staff
+                        {% elif user.student %}
+                            Student
+                        {% else %}
+                            Authenticated User
+                        {% endif %}
+                        )
+                    </span>
+                {% endif %}
             </div>
         </div>
     </nav>
