@@ -27,53 +27,54 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">Office Management</a>
+            <a class="navbar-brand" href="{% url 'office:home' %}">Office Management</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link" href="{% url 'office:home' %}">Home</a>
                     </li>
                     {% if user.is_authenticated %}
                         {% if user.student %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'student_dashboard' %}">My Dashboard</a>
+                                <a class="nav-link" href="{% url 'office:student_dashboard' %}">My Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'student_detail' %}">My Details</a>
+                                <a class="nav-link" href="{% url 'office:student_detail' %}">My Details</a>
                             </li>
-                        {% elif user.staff %}
+                        {% endif %} {# Closes if user.student #}
+                        {% if user.staff %} {# New if for staff #}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'office_staff_dashboard' %}">Staff Dashboard</a>
+                                <a class="nav-link" href="{% url 'office:office_staff_dashboard' %}">Staff Dashboard</a>
                             </li>
                             {% if user.staff.staff_type == 'Teaching' %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'teaching_staff_view' %}">My Students</a>
+                                    <a class="nav-link" href="{% url 'office:teaching_staff_view' %}">My Students</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'manage_attendance' %}">Manage Attendance</a>
+                                    <a class="nav-link" href="{% url 'office:manage_attendance' %}">Manage Attendance</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'upload_internal_marks' %}">Upload Marks</a>
+                                    <a class="nav-link" href="{% url 'office:upload_internal_marks' %}">Upload Marks</a>
                                 </li>
                             {% elif user.staff.staff_type == 'Non-Teaching' %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'non_teaching_staff_view' %}">All Students</a>
+                                    <a class="nav-link" href="{% url 'office:non_teaching_staff_view' %}">All Students</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'register_student' %}">Register Student</a>
+                                    <a class="nav-link" href="{% url 'office:register_student' %}">Register Student</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'office:admin_reports' %}">Admin Reports</a>
                                 </li>
                             {% endif %}
-                        {% endif %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'notification_list' %}">Notifications</a>
-                        </li>
-                        {% if user.is_superuser %}
+                                                    {% endif %} {# Closes if user.staff.staff_type == 'Teaching' or 'Non-Teaching' #}
+                                                {% endif %} {# Closes if user.staff #}
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="{% url 'office:notification_list' %}">Notifications</a>
+                                                </li>                        {% if user.is_superuser %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
                             </li>
