@@ -34,7 +34,10 @@ class CustomLoginView(LoginView):
         if hasattr(user, 'student'):
             return reverse_lazy('office:student_dashboard')
         elif hasattr(user, 'staff'):
-            return reverse_lazy('office:office_staff_dashboard')
+            if user.staff.staff_type == 'Teaching':
+                return reverse_lazy('office:teaching_staff_view')
+            elif user.staff.staff_type == 'Non-Teaching':
+                return reverse_lazy('office:office_staff_dashboard')
         return reverse_lazy('home') # Default redirect for other users
 
 def is_teaching_staff(user):
@@ -166,7 +169,7 @@ def student_dashboard(request):
     
     return redirect('office:student_detail_with_id', student_id=student.id)
 
-@user_passes_test(lambda u: hasattr(u, 'staff')) # Accessible to any staff type
+@user_passes_test(is_non_teaching_staff)
 def office_staff_dashboard(request):
     students = Student.objects.all()
     query = request.GET.get('q')
