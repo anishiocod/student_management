@@ -25,7 +25,7 @@
                             <td>{{ student.department }}</td>
                             <td>{{ student.semester }}</td>
                             <td>{{ student.class_in_charge }}</td>
-                            <td><a href="{% url 'update_fee_status' student.id %}" class="btn btn-sm btn-info">Update Fee</a></td>
+                            <td><a href="{% url 'office:update_fee_status' student.id %}" class="btn btn-sm btn-info">Update Fee</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

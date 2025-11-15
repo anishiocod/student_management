@@ -5,8 +5,8 @@
 {% block content %}
     <h1 class="mb-4">Your Students</h1>
     <div class="mb-3">
-        <a href="{% url 'manage_attendance' %}" class="btn btn-primary me-2">Manage Attendance</a>
-        <a href="{% url 'manage_internal_marks' %}" class="btn btn-secondary">Manage Internal Marks</a>
+        <a href="{% url 'office:manage_attendance' %}" class="btn btn-primary me-2">Manage Attendance</a>
+        <a href="{% url 'office:upload_internal_marks' %}" class="btn btn-secondary">Manage Internal Marks</a>
     </div>
     {% if students %}
         <div class="list-group">

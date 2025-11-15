@@ -1,5 +1,5 @@
 from django import forms
-from .models import Fee, Attendance, InternalMark, Student
+from .models import Fee, Attendance, InternalMark, Student, Staff
 from django.contrib.auth.models import User
 
 class FeeForm(forms.ModelForm):
@@ -36,3 +36,35 @@ class StudentRegistrationForm(forms.ModelForm):
         student.user = user
         student.save()
         return student
+
+class StaffRegistrationForm(forms.ModelForm):
+    username = forms.CharField(max_length=150, help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.")
+    email = forms.EmailField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput, help_text="Enter a strong password.")
+    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+
+    class Meta:
+        model = Staff
+        fields = ['staff_type'] # Only staff_type from the Staff model
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_confirm = cleaned_data.get("password_confirm")
+
+        if password and password_confirm and password != password_confirm:
+            self.add_error('password_confirm', "Passwords do not match")
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = User.objects.create_user(
+            username=self.cleaned_data['username'],
+            email=self.cleaned_data['email'],
+            password=self.cleaned_data['password']
+        )
+        staff = super().save(commit=False)
+        staff.user = user
+        if commit:
+            staff.save()
+        return staff
+

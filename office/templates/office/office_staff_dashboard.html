@@ -14,12 +14,12 @@
         <div class="card-body">
             <div class="d-flex flex-wrap gap-2">
                 {% if request.user.staff.staff_type == 'Non-Teaching' %}
-                    <a href="{% url 'register_student' %}" class="btn btn-success">Register New Student</a>
-                    <a href="{% url 'admin_reports' %}" class="btn btn-info">View Admin Reports</a>
+                    <a href="{% url 'office:register_student' %}" class="btn btn-success">Register New Student</a>
+                    <a href="{% url 'office:admin_reports' %}" class="btn btn-info">View Admin Reports</a>
                 {% endif %}
                 {% if request.user.staff.staff_type == 'Teaching' %}
-                    <a href="{% url 'manage_attendance' %}" class="btn btn-warning">Manage Attendance</a>
-                    <a href="{% url 'upload_internal_marks' %}" class="btn btn-primary">Upload Internal Marks</a>
+                    <a href="{% url 'office:manage_attendance' %}" class="btn btn-warning">Manage Attendance</a>
+                    <a href="{% url 'office:upload_internal_marks' %}" class="btn btn-primary">Upload Internal Marks</a>
                 {% endif %}
             </div>
         </div>
@@ -96,7 +96,7 @@
                                     <td>{{ student.department.name }}</td>
                                     <td>{{ student.semester.name }}</td>
                                     <td>
-                                        <a href="{% url 'student_detail' student.id %}" class="btn btn-sm btn-info">View Details</a>
+                                        <a href="{% url 'office:student_detail_with_id' student.id %}" class="btn btn-sm btn-info">View Details</a>
                                         <!-- Add more actions here if needed, e.g., edit, update fee -->
                                     </td>
                                 </tr>
