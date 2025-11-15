@@ -83,7 +83,10 @@
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link btn btn-link text-white" style="padding-top: 8px; padding-bottom: 8px;">Logout</button>
+                            </form>
                         </li>
                     {% endif %}
                 </ul>
