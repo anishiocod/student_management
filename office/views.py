@@ -1,8 +1,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import authenticate, login
+from django.urls import reverse_lazy
+from django.db.models import Q # Added this import
 from .models import Student, Staff, Notification, Fee, Attendance, InternalMark, Subject
 from .forms import FeeForm, AttendanceForm, InternalMarkForm, StudentRegistrationForm
 from django.utils import timezone
+
+class CustomLoginView(LoginView):
+    template_name = 'office/login.html'
+    
+    def get_success_url(self):
+        user = self.request.user
+        if hasattr(user, 'student'):
+            return reverse_lazy('student_dashboard')
+        elif hasattr(user, 'staff'):
+            return reverse_lazy('office_staff_dashboard')
+        return reverse_lazy('home') # Default redirect for other users
 
 def is_teaching_staff(user):
     return user.is_authenticated and hasattr(user, 'staff') and user.staff.staff_type == 'Teaching'
@@ -14,12 +29,14 @@ def home(request):
     return render(request, 'office/home.html')
 
 @login_required
-def student_detail(request):
-    try:
-        student = Student.objects.get(user=request.user)
-    except Student.DoesNotExist:
-        # Handle case where the logged-in user is not a student
-        return render(request, 'office/not_a_student.html')
+def student_detail(request, student_id=None):
+    if student_id:
+        student = get_object_or_404(Student, pk=student_id)
+    else:
+        try:
+            student = Student.objects.get(user=request.user)
+        except Student.DoesNotExist:
+            return render(request, 'office/not_a_student.html')
     return render(request, 'office/student_detail.html', {'student': student})
 
 @user_passes_test(is_teaching_staff)
@@ -121,3 +138,60 @@ def notification_list(request):
 @user_passes_test(is_non_teaching_staff)
 def admin_reports_view(request):
     return render(request, 'office/admin_reports.html')
+
+@login_required
+def student_dashboard(request):
+    try:
+        student = Student.objects.get(user=request.user)
+    except Student.DoesNotExist:
+        return render(request, 'office/not_a_student.html') # Or redirect to a page indicating no student profile
+    
+    return redirect('student_detail', student_id=student.id)
+
+@user_passes_test(lambda u: hasattr(u, 'staff')) # Accessible to any staff type
+def office_staff_dashboard(request):
+    students = Student.objects.all()
+    query = request.GET.get('q')
+    department_filter = request.GET.get('department')
+    semester_filter = request.GET.get('semester')
+    fee_status_filter = request.GET.get('fee_status')
+
+    if query:
+        students = students.filter(
+            Q(name__icontains=query) |
+            Q(apaar_id__icontains=query) |
+            Q(department__name__icontains=query) |
+            Q(semester__name__icontains=query)
+        )
+    
+    if department_filter:
+        students = students.filter(department__name=department_filter)
+    
+    if semester_filter:
+        students = students.filter(semester__name=semester_filter)
+
+    if fee_status_filter:
+        # This requires joining with the Fee model, which can be complex for direct filtering
+        # For simplicity, let's assume we want students who *have* a fee record with that status
+        # A more robust solution might involve annotating students with their latest fee status
+        if fee_status_filter == 'Paid':
+            students = students.filter(fee__status='Paid').distinct()
+        elif fee_status_filter == 'Not Paid':
+            students = students.filter(fee__status='Not Paid').distinct()
+
+
+    departments = Course.objects.all()
+    semesters = Semester.objects.all()
+    fee_statuses = [('Paid', 'Paid'), ('Not Paid', 'Not Paid')]
+
+    context = {
+        'students': students,
+        'departments': departments,
+        'semesters': semesters,
+        'fee_statuses': fee_statuses,
+        'selected_department': department_filter,
+        'selected_semester': semester_filter,
+        'selected_fee_status': fee_status_filter,
+        'query': query,
+    }
+    return render(request, 'office/office_staff_dashboard.html', context)

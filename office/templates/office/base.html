@@ -39,33 +39,29 @@
                     {% if user.is_authenticated %}
                         {% if user.is_superuser %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'admin_reports' %}">Admin Reports</a>
+                                <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
                             </li>
-                        {% elif user.staff.staff_type == 'Teaching' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'teaching_staff_view' %}">Your Students</a>
+                                <a class="nav-link" href="{% url 'office_staff_dashboard' %}">Office Staff Dashboard</a>
                             </li>
-                        {% elif user.staff.staff_type == 'Non-Teaching' %}
+                        {% elif user.staff %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'non_teaching_staff_view' %}">All Students</a>
+                                <a class="nav-link" href="{% url 'office_staff_dashboard' %}">Office Staff Dashboard</a>
                             </li>
-                        {% else %}
+                        {% elif user.student %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'student_detail' %}">My Details</a>
+                                <a class="nav-link" href="{% url 'student_dashboard' %}">My Dashboard</a>
                             </li>
                         {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'notification_list' %}">Notifications</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:logout' %}">Logout</a>
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
                         </li>
                     {% endif %}
                 </ul>
