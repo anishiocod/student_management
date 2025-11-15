@@ -1,4 +1,5 @@
 {% extends 'office/base.html' %}
+{% load office_tags %}
 
 {% block title %}Register Staff{% endblock %}
 
@@ -16,7 +17,7 @@
                         {% for field in form %}
                             <div class="mb-3">
                                 <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                {{ field }}
+                                {{ field|add_class:"form-control" }}
                                 {% if field.help_text %}
                                     <div class="form-text">{{ field.help_text }}</div>
                                 {% endif %}
