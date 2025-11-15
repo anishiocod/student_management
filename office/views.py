@@ -15,20 +15,15 @@ def is_non_teaching_staff(user):
 
 @user_passes_test(is_non_teaching_staff)
 def register_staff(request):
-    def is_non_teaching_staff(user):
-        return user.is_authenticated and hasattr(user, 'staff') and user.staff.staff_type == 'Non-Teaching'
-
-    @user_passes_test(is_non_teaching_staff)
-    def register_staff(request):
-        if request.method == 'POST':
-            form = StaffRegistrationForm(request.POST)
-            if form.is_valid():
-                form.save()
-                # Redirect to a success page, e.g., staff list or dashboard
-                return redirect('office:office_staff_dashboard')
-        else:
-            form = StaffRegistrationForm()
-        return render(request, 'office/register_staff.html', {'form': form})
+    if request.method == 'POST':
+        form = StaffRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirect to a success page, e.g., staff list or dashboard
+            return redirect('office:office_staff_dashboard')
+    else:
+        form = StaffRegistrationForm()
+    return render(request, 'office/register_staff.html', {'form': form})
 
 
 class CustomLoginView(LoginView):
