@@ -37,25 +37,47 @@
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
                     {% if user.is_authenticated %}
-                        {% if user.is_superuser %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'office_staff_dashboard' %}">Office Staff Dashboard</a>
-                            </li>
-                        {% elif user.staff %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'office_staff_dashboard' %}">Office Staff Dashboard</a>
-                            </li>
-                        {% elif user.student %}
+                        {% if user.student %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'student_dashboard' %}">My Dashboard</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'student_detail' %}">My Details</a>
+                            </li>
+                        {% elif user.staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'office_staff_dashboard' %}">Staff Dashboard</a>
+                            </li>
+                            {% if user.staff.staff_type == 'Teaching' %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'teaching_staff_view' %}">My Students</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'manage_attendance' %}">Manage Attendance</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'upload_internal_marks' %}">Upload Marks</a>
+                                </li>
+                            {% elif user.staff.staff_type == 'Non-Teaching' %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'non_teaching_staff_view' %}">All Students</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'register_student' %}">Register Student</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'office:admin_reports' %}">Admin Reports</a>
+                                </li>
+                            {% endif %}
                         {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'notification_list' %}">Notifications</a>
                         </li>
+                        {% if user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                         </li>
