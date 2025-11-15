@@ -26,6 +26,9 @@ SECRET_KEY = 'django-insecure-9(*c2%+59l_6kn^$3i5(ki^yhgc#pe_mvtzdf04u3y8_gpcjg9
 DEBUG = True
 
 ALLOWED_HOSTS = ['student-management-tjhg.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://student-management-tjhg.onrender.com',
+]
 
 
 # Application definition
