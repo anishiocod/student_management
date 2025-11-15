@@ -1,0 +1,25 @@
+{% extends 'office/base.html' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Notifications</h1>
+    {% if notifications %}
+        <div class="list-group">
+            {% for notification in notifications %}
+                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">New Notification</h5>
+                        <small class="text-muted">{{ notification.created_at }}</small>
+                    </div>
+                    <p class="mb-1">{{ notification.message }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            No notifications.
+        </div>
+    {% endif %}
+{% endblock %}
+

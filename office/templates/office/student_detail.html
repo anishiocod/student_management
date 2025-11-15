@@ -1,0 +1,26 @@
+{% extends 'office/base.html' %}
+
+{% block title %}Student Details{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Your Details</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ student.name }}</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Apaar ID:</strong> {{ student.apaar_id }}</li>
+                <li class="list-group-item"><strong>Department:</strong> {{ student.department }}</li>
+                <li class="list-group-item"><strong>Semester:</strong> {{ student.semester }}</li>
+                <li class="list-group-item"><strong>Gender:</strong> {{ student.gender }}</li>
+                <li class="list-group-item"><strong>Caste:</strong> {{ student.caste }}</li>
+                <li class="list-group-item"><strong>Category:</strong> {{ student.category }}</li>
+                <li class="list-group-item"><strong>Address:</strong> {{ student.address }}</li>
+                <li class="list-group-item"><strong>Guardian Name:</strong> {{ student.guardian_name }}</li>
+                <li class="list-group-item"><strong>Student Phone Number:</strong> {{ student.student_phone_number }}</li>
+                <li class="list-group-item"><strong>Parent Phone Number:</strong> {{ student.parent_phone_number }}</li>
+                <li class="list-group-item"><strong>Class In-charge:</strong> {{ student.class_in_charge }}</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,24 @@
+{% extends 'office/base.html' %}
+
+{% block title %}Your Students{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Your Students</h1>
+    <div class="mb-3">
+        <a href="{% url 'manage_attendance' %}" class="btn btn-primary me-2">Manage Attendance</a>
+        <a href="{% url 'manage_internal_marks' %}" class="btn btn-secondary">Manage Internal Marks</a>
+    </div>
+    {% if students %}
+        <div class="list-group">
+            {% for student in students %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ student.name }} - {{ student.department }} - {{ student.semester }}
+                </li>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You have no students assigned to you.
+        </div>
+    {% endif %}
+{% endblock %}
