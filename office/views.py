@@ -146,7 +146,7 @@ def upload_internal_marks(request):
         form.fields['student'].queryset = students_in_charge
         form.fields['subject'].queryset = relevant_subjects
 
-    return render(request, 'office/upload_internal_marks.html', {'form': form})
+    return render(request, 'office/manage_internal_marks.html', {'form': form})
 
 @login_required
 def notification_list(request):
