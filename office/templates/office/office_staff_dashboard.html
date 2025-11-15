@@ -31,7 +31,7 @@
             Search and Filter Students
         </div>
         <div class="card-body">
-            <form method="GET" action="{% url 'office_staff_dashboard' %}" class="row g-3 align-items-end">
+            <form method="GET" action="{% url 'office:office_staff_dashboard' %}" class="row g-3 align-items-end">
                 <div class="col-md-4">
                     <label for="id_query" class="form-label">Search (Name, APAAR ID, Dept, Sem)</label>
                     <input type="text" class="form-control" id="id_query" name="q" value="{{ query|default_if_none:'' }}">

@@ -4,9 +4,32 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
 from django.db.models import Q # Added this import
-from .models import Student, Staff, Notification, Fee, Attendance, InternalMark, Subject
-from .forms import FeeForm, AttendanceForm, InternalMarkForm, StudentRegistrationForm
+from .models import Student, Staff, Notification, Fee, Attendance, InternalMark, Subject, Course, Semester
+from .forms import FeeForm, AttendanceForm, InternalMarkForm, StudentRegistrationForm, StaffRegistrationForm
 from django.utils import timezone
+
+def is_non_teaching_staff(user):
+    return user.is_authenticated and hasattr(user, 'staff') and user.staff.staff_type == 'Non-Teaching'
+
+# ... existing code ...
+
+@user_passes_test(is_non_teaching_staff)
+def register_staff(request):
+    def is_non_teaching_staff(user):
+        return user.is_authenticated and hasattr(user, 'staff') and user.staff.staff_type == 'Non-Teaching'
+
+    @user_passes_test(is_non_teaching_staff)
+    def register_staff(request):
+        if request.method == 'POST':
+            form = StaffRegistrationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                # Redirect to a success page, e.g., staff list or dashboard
+                return redirect('office:office_staff_dashboard')
+        else:
+            form = StaffRegistrationForm()
+        return render(request, 'office/register_staff.html', {'form': form})
+
 
 class CustomLoginView(LoginView):
     template_name = 'office/login.html'

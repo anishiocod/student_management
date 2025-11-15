@@ -1,78 +1,83 @@
-# Student Management System
+# Office Management System
 
-This document outlines the features and accessible pages of the Student Management System.
+## Project Description
+This is a Django-based Office Management System designed to manage students, staff, attendance, internal marks, fees, and notifications. It supports different user roles including students, teaching staff, non-teaching staff, and administrators, each with specific access and functionalities.
 
-## Setup and Running the Application
-
+## Setup Instructions
 1.  **Clone the repository:**
-    `git clone <repository_url>`
-    `cd student_management`
+    ```bash
+    git clone <repository_url>
+    cd student_management
+    ```
 2.  **Create and activate a virtual environment:**
-    `python -m venv venv`
-    `source venv/bin/activate` (on macOS/Linux)
-    `venv\Scripts\activate` (on Windows)
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 3.  **Install dependencies:**
-    `pip install -r requirements.txt` (You might need to create this file first by running `pip freeze > requirements.txt`)
+    ```bash
+    pip install -r requirements.txt # Assuming a requirements.txt exists, if not, install django
+    ```
 4.  **Apply migrations:**
-    `python manage.py migrate`
+    ```bash
+    python manage.py migrate
+    ```
 5.  **Create a superuser (for admin access):**
-    `python manage.py createsuperuser`
+    ```bash
+    python manage.py createsuperuser
+    ```
 6.  **Run the development server:**
-    `python manage.py runserver`
-
-The application will be accessible at `http://127.0.0.1:8000/`.
+    ```bash
+    python manage.py runserver
+    ```
+    The application will be accessible at `http://127.0.0.1:8000/`.
 
 ## User Roles and Permissions
 
-The system supports different user roles with varying access levels:
+The system defines the following user roles with distinct access levels:
 
-*   **Student:** Can view their personal dashboard, details, and notifications.
-*   **Teaching Staff:** Can view their students, manage attendance, upload internal marks, and view notifications.
-*   **Non-Teaching Staff:** Can view all students, register new students, update fee status, view admin reports, and view notifications.
-*   **Superuser (Admin):** Full access to the Django Admin Panel and all staff functionalities.
+*   **Anonymous User**: Can only access the login page.
+*   **Student**: Can view their own dashboard, details, and notifications.
+*   **Teaching Staff**: Can view students under their charge, manage attendance, and upload internal marks.
+*   **Non-Teaching Staff**: Can view all students, register new students, update fee statuses, register new staff, and access admin reports.
+*   **Superuser**: Has full access to the Django admin panel and all functionalities.
 
-## Accessible Pages and Endpoints
+## Available Endpoints
 
-All URLs for the `office` application are prefixed with `/office/`.
+### General Endpoints
 
-### General Access
+| URL Pattern             | View Function           | Description                                     | Required Permissions |
+| :---------------------- | :---------------------- | :---------------------------------------------- | :------------------- |
+| `/`                     | `office.views.home`     | Home page of the application.                   | All Users            |
+| `/login/`               | `office.views.CustomLoginView` | User login page.                                | Anonymous Users      |
+| `/logout/`              | `django.contrib.auth.views.LogoutView` | User logout.                                    | Authenticated Users  |
+| `/admin/`               | `django.contrib.admin.site.urls` | Django administration panel.                    | Superuser            |
 
-*   **`/login/`**: User login page.
-*   **`/logout/`**: Logs out the current user.
+### Student Endpoints
 
-### Office Application Endpoints (`/office/`)
+| URL Pattern             | View Function           | Description                                     | Required Permissions |
+| :---------------------- | :---------------------- | :---------------------------------------------- | :------------------- |
+| `/office/student/dashboard/` | `office.views.student_dashboard` | Student's personal dashboard.                   | Authenticated Student |
+| `/office/student/detail/` | `office.views.student_detail` | View current student's details.                 | Authenticated Student |
+| `/office/student/detail/<int:student_id>/` | `office.views.student_detail` | View details of a specific student.             | Authenticated Student (if `student_id` matches current user) or Staff |
+| `/office/notifications/` | `office.views.notification_list` | List of all notifications.                      | Authenticated Users  |
 
-*   **`/office/`**: **Home Page**. Accessible to all authenticated users.
-*   **`/office/student/dashboard/`**: **Student Dashboard**. Accessible to authenticated students.
-    *   *Features:* Displays student-specific information.
-*   **`/office/student/detail/<int:student_id>/`**: **Student Detail View**. Accessible to authenticated students (for their own details) and staff.
-    *   *Features:* Detailed view of a student's profile.
-*   **`/office/staff/dashboard/`**: **Office Staff Dashboard**. Accessible to authenticated staff members.
-*   **`/office/staff/teaching/`**: **Teaching Staff View**. Accessible to teaching staff.
-    *   *Features:* View students assigned to the teaching staff.
-*   **`/office/staff/non-teaching/`**: **Non-Teaching Staff View**. Accessible to non-teaching staff.
-    *   *Features:* View all students in the system.
-*   **`/office/notifications/`**: **Notifications List**. Accessible to all authenticated users.
-*   **`/office/staff/register-student/`**: **Register Student**. Accessible to non-teaching staff.
-    *   *Features:* Form to register new students.
-*   **`/office/student/<int:student_id>/update-fee/`**: **Update Fee Status**. Accessible to non-teaching staff.
-    *   *Features:* Update the fee payment status for a specific student.
-*   **`/office/staff/manage-attendance/`**: **Manage Attendance**. Accessible to teaching staff.
-    *   *Features:* Record and manage student attendance.
-*   **`/office/staff/upload-marks/`**: **Upload Internal Marks**. Accessible to teaching staff.
-    *   *Features:* Upload internal assessment marks for students.
-*   **`/office/admin/reports/`**: **Admin Reports**. Accessible to non-teaching staff.
-    *   *Features:* Generate and view administrative reports.
+### Teaching Staff Endpoints
 
-### Admin Panel
+| URL Pattern             | View Function           | Description                                     | Required Permissions |
+| :---------------------- | :---------------------- | :---------------------------------------------- | :------------------- |
+| `/office/staff/dashboard/` | `office.views.office_staff_dashboard` | Staff dashboard (accessible to all staff types). | Authenticated Staff  |
+| `/office/staff/teaching/` | `office.views.teaching_staff_view` | View students under the teaching staff's charge. | Teaching Staff       |
+| `/office/staff/manage-attendance/` | `office.views.manage_attendance` | Manage attendance for students.                 | Teaching Staff       |
+| `/office/staff/upload-marks/` | `office.views.upload_internal_marks` | Upload internal marks for students.             | Teaching Staff       |
 
-*   **`/admin/`**: **Django Administration Panel**. Accessible to superusers.
-    *   *Features:* Full control over the database models and user management.
+### Non-Teaching Staff Endpoints
 
-## Future Enhancements (as per user request)
-
-*   **Enhanced Student View:** Implement detailed student views with all fields, search, and multiple filter options (beyond the admin panel).
-*   **Professional UI/UX:** Further refine the login and view pages for a more professional look and feel, leveraging Bootstrap for styling.
-
----
-*This README was generated by the Gemini CLI.*
+| URL Pattern             | View Function           | Description                                     | Required Permissions |
+| :---------------------- | :---------------------- | :---------------------------------------------- | :------------------- |
+| `/office/staff/dashboard/` | `office.views.office_staff_dashboard` | Staff dashboard (accessible to all staff types). | Authenticated Staff  |
+| `/office/staff/non-teaching/` | `office.views.non_teaching_staff_view` | View all students.                              | Non-Teaching Staff   |
+| `/office/staff/register-student/` | `office.views.register_student` | Register a new student.                         | Non-Teaching Staff   |
+| `/office/staff/register/` | `office.views.register_staff` | Register a new staff member.                    | Non-Teaching Staff   |
+| `/office/student/<int:student_id>/update-fee/` | `office.views.update_fee_status` | Update fee status for a specific student.       | Non-Teaching Staff   |
+| `/office/admin/reports/` | `office.views.admin_reports_view` | Access administrative reports.                  | Non-Teaching Staff   |

@@ -1,13 +1,15 @@
 {% extends 'office/base.html' %}
 
-{% block title %}Access Denied{% endblock %}
+{% block title %}Not a Student{% endblock %}
 
 {% block content %}
-    <div class="alert alert-danger mt-5" role="alert">
+<div class="container mt-4">
+    <div class="alert alert-warning" role="alert">
         <h4 class="alert-heading">Access Denied!</h4>
-        <p>You are not registered as a student or your account is not linked to a student profile.</p>
+        <p>You do not have a student profile associated with your account.</p>
         <hr>
         <p class="mb-0">Please contact the administration if you believe this is an error.</p>
     </div>
+    <a href="{% url 'office:home' %}" class="btn btn-primary">Go to Home</a>
+</div>
 {% endblock %}
-

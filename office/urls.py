@@ -11,6 +11,7 @@ urlpatterns = [
     path('staff/non-teaching/', views.non_teaching_staff_view, name='non_teaching_staff_view'),
     path('notifications/', views.notification_list, name='notification_list'),
     path('staff/register-student/', views.register_student, name='register_student'),
+    path('staff/register/', views.register_staff, name='register_staff'),
     path('student/<int:student_id>/update-fee/', views.update_fee_status, name='update_fee_status'),
     path('staff/manage-attendance/', views.manage_attendance, name='manage_attendance'),
     path('staff/upload-marks/', views.upload_internal_marks, name='upload_internal_marks'),

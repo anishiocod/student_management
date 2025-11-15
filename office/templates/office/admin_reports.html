@@ -3,46 +3,9 @@
 {% block title %}Admin Reports{% endblock %}
 
 {% block content %}
-    <h1 class="mb-4">Admin Reports and Analytics</h1>
-
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-primary">
-                <div class="card-body">
-                    <h5 class="card-title">Total Students</h5>
-                    <p class="card-text display-4">{{ total_students }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-success">
-                <div class="card-body">
-                    <h5 class="card-title">Total Courses</h5>
-                    <p class="card-text display-4">{{ total_courses }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card text-white bg-info">
-                <div class="card-body">
-                    <h5 class="card-title">Total Staff</h5>
-                    <p class="card-text display-4">{{ total_staff }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <h2 class="mt-4 mb-3">Fee Status Summary</h2>
-    <div class="card">
-        <div class="card-body">
-            <ul class="list-group list-group-flush">
-                {% for status in fee_status_summary %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ status.status }}
-                        <span class="badge bg-primary rounded-pill">{{ status.count }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+<div class="container mt-4">
+    <h2>Admin Reports</h2>
+    <p>This page will display various administrative reports.</p>
+    <!-- Report content will go here -->
+</div>
 {% endblock %}
