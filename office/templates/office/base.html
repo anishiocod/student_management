@@ -69,12 +69,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'office:admin_reports' %}">Admin Reports</a>
                                 </li>
-                            {% endif %}
-                                                    {% endif %} {# Closes if user.staff.staff_type == 'Teaching' or 'Non-Teaching' #}
-                                                {% endif %} {# Closes if user.staff #}
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="{% url 'office:notification_list' %}">Notifications</a>
-                                                </li>                        {% if user.is_superuser %}
+                            {% endif %} {# Closes if user.staff.staff_type == 'Teaching' or 'Non-Teaching' #}
+                        {% endif %} {# Closes if user.staff #}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'office:notification_list' %}">Notifications</a>
+                        </li>                        {% if user.is_superuser %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
                             </li>

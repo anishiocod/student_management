@@ -14,9 +14,9 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         if hasattr(user, 'student'):
-            return reverse_lazy('student_dashboard')
+            return reverse_lazy('office:student_dashboard')
         elif hasattr(user, 'staff'):
-            return reverse_lazy('office_staff_dashboard')
+            return reverse_lazy('office:office_staff_dashboard')
         return reverse_lazy('home') # Default redirect for other users
 
 def is_teaching_staff(user):
