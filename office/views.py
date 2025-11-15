@@ -55,7 +55,7 @@ def register_student(request):
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('non_teaching_staff_view')
+            return redirect('office:non_teaching_staff_view')
     else:
         form = StudentRegistrationForm()
     return render(request, 'office/register_student.html', {'form': form})
@@ -70,7 +70,7 @@ def update_fee_status(request, student_id):
         form = FeeForm(request.POST, request.FILES, instance=fee)
         if form.is_valid():
             form.save()
-            return redirect('non_teaching_staff_view')
+            return redirect('office:non_teaching_staff_view')
     else:
         form = FeeForm(instance=fee)
 
@@ -91,7 +91,7 @@ def manage_attendance(request):
                     date=date,
                     defaults={'status': status}
                 )
-        return redirect('manage_attendance')
+        return redirect('office:manage_attendance')
 
     attendance_records = Attendance.objects.filter(date=date, student__in=students)
     attendance_map = {record.student_id: record.status for record in attendance_records}
@@ -122,7 +122,7 @@ def upload_internal_marks(request):
             # Additional security check: ensure the selected student is one the teacher is in charge of
             if form.cleaned_data['student'] in students_in_charge:
                 form.save()
-            return redirect('upload_internal_marks')
+            return redirect('office:upload_internal_marks')
     else:
         form = InternalMarkForm()
         form.fields['student'].queryset = students_in_charge
@@ -146,7 +146,7 @@ def student_dashboard(request):
     except Student.DoesNotExist:
         return render(request, 'office/not_a_student.html') # Or redirect to a page indicating no student profile
     
-    return redirect('student_detail', student_id=student.id)
+    return redirect('office:student_detail_with_id', student_id=student.id)
 
 @user_passes_test(lambda u: hasattr(u, 'staff')) # Accessible to any staff type
 def office_staff_dashboard(request):

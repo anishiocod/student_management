@@ -5,7 +5,8 @@ app_name = 'office'
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('student/detail/<int:student_id>/', views.student_detail, name='student_detail'),
+    path('student/detail/', views.student_detail, name='student_detail'),
+    path('student/detail/<int:student_id>/', views.student_detail, name='student_detail_with_id'),
     path('staff/teaching/', views.teaching_staff_view, name='teaching_staff_view'),
     path('staff/non-teaching/', views.non_teaching_staff_view, name='non_teaching_staff_view'),
     path('notifications/', views.notification_list, name='notification_list'),
